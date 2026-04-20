@@ -14,5 +14,7 @@ A full-stack ASP.NET MVC e-commerce application that allows users to browse prod
 ## 🛠️ Technologies Used
 - ASP.NET MVC
 - Entity Framework
+- Linq
 - SQL Server
+- JavaScript
 - Bootstrap
