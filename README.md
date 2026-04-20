@@ -1,20 +1,40 @@
-# 🛒 E-Commerce MVC Project
+# 🛒 E-Commerce MVC Application
 
 ## 📌 Overview
-A full-stack ASP.NET MVC e-commerce application that allows users to browse products, manage cart, and place orders. Admins can manage products, categories, and orders.
+A full-stack ASP.NET MVC e-commerce application that enables users to browse products, manage their shopping cart, and complete orders.  
+The system also includes a powerful admin panel for managing products, categories, and orders with role-based access control.
 
 ## 🚀 Features
-- User authentication (Login/Register)
-- Product listing with pagination & filtering
-- Shopping cart
-- Checkout system
-- Admin dashboard
-- Order management
+
+### 👤 User Features
+- Secure authentication (Login / Register)
+- Browse products with **pagination and filtering**
+- Add/remove items from cart
+- Checkout and place orders
+
+### 🛠️ Admin Features
+- Full control over products, categories, and orders
+- Role-based authorization (Admin / User)
+- Manage and update system data بسهولة
+
+### ⚙️ Technical Features
+- Clean architecture using **Repository Pattern**
+- Pagination & filtering for performance optimization
+- Structured and maintainable codebase
 
 ## 🛠️ Technologies Used
 - ASP.NET MVC
 - Entity Framework
-- Linq
+- LINQ
 - SQL Server
 - JavaScript
 - Bootstrap
+
+## 📷 Screenshots
+(Add your screenshots here)
+
+## ⚙️ Setup Instructions
+1. Clone the repository
+2. Update connection string in `appsettings.json`
+3. Run database migrations
+4. Start the project
