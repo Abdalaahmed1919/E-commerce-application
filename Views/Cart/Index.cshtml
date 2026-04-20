@@ -1,0 +1,357 @@
+﻿@model CartViewModel
+@{
+    ViewData["Title"] = "Index";
+}
+<style>
+    .page-header {
+        background: var(--primary);
+        color: #fff;
+        padding: 36px 0;
+    }
+
+        .page-header h1 {
+            font-family: 'Playfair Display',serif;
+            font-size: 2rem;
+        }
+
+    .breadcrumb-item a {
+        color: rgba(255,255,255,.6);
+        text-decoration: none;
+    }
+
+    .breadcrumb-item.active {
+        color: var(--accent);
+    }
+
+    .breadcrumb-item + .breadcrumb-item::before {
+        color: rgba(255,255,255,.4);
+    }
+    /* CART */
+    .cart-table {
+        background: #fff;
+        border-radius: 12px;
+        border: 1px solid #ececec;
+        overflow: hidden;
+    }
+
+        .cart-table table {
+            margin: 0;
+        }
+
+        .cart-table th {
+            background: var(--primary);
+            color: #fff;
+            padding: 14px 18px;
+            font-weight: 500;
+            font-size: .88rem;
+        }
+
+        .cart-table td {
+            padding: 16px 18px;
+            vertical-align: middle;
+            border-bottom: 1px solid #f0ede8;
+        }
+
+    .cart-product-img {
+        width: 70px;
+        height: 70px;
+        background: #f0ede8;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 2rem;
+    }
+
+    .cart-product-name {
+        font-weight: 600;
+        font-size: .95rem;
+    }
+
+    .cart-product-sku {
+        font-size: .78rem;
+        color: var(--text-muted);
+    }
+
+    .qty-input {
+        width: 65px;
+        text-align: center;
+        border: 1px solid #ddd;
+        border-radius: 6px;
+        padding: 5px;
+        font-family: 'DM Sans',sans-serif;
+    }
+
+    .btn-remove {
+        background: none;
+        border: none;
+        color: var(--text-muted);
+        cursor: pointer;
+        padding: 4px 8px;
+        border-radius: 5px;
+    }
+
+        .btn-remove:hover {
+            color: var(--accent);
+            background: #fff0f2;
+        }
+
+    .cart-price {
+        font-weight: 700;
+        color: var(--accent);
+    }
+
+    /* ORDER SUMMARY */
+    .order-summary {
+        background: #fff;
+        border-radius: 12px;
+        padding: 24px;
+        border: 1px solid #ececec;
+        position: sticky;
+        top: 90px;
+    }
+
+        .order-summary h5 {
+            font-family: 'Playfair Display',serif;
+            font-size: 1.3rem;
+            border-bottom: 1px solid #ececec;
+            padding-bottom: 12px;
+            margin-bottom: 16px;
+        }
+
+    .summary-row {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 10px;
+        font-size: .92rem;
+    }
+
+    .summary-total {
+        font-size: 1.1rem;
+        font-weight: 700;
+        border-top: 2px solid #ececec;
+        padding-top: 12px;
+        margin-top: 4px;
+    }
+
+    .btn-checkout {
+        background: var(--accent);
+        color: #fff;
+        border: none;
+        width: 100%;
+        padding: 13px;
+        border-radius: 8px;
+        font-weight: 600;
+        font-size: 1rem;
+        transition: opacity .2s;
+    }
+
+        .btn-checkout:hover {
+            opacity: .88;
+        }
+
+    .coupon-input {
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        padding: 10px 14px;
+        font-family: 'DM Sans',sans-serif;
+        font-size: .9rem;
+        flex: 1;
+        outline: none;
+    }
+
+    .btn-apply {
+        background: var(--primary);
+        color: #fff;
+        border: none;
+        padding: 10px 18px;
+        border-radius: 8px;
+        font-size: .88rem;
+        font-weight: 500;
+    }
+
+</style>
+
+<div class="page-header">
+    <div class="container">
+        <h1>Shopping Cart</h1>
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb mb-0 mt-2">
+                <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index" >Home</a></li>
+                <li class="breadcrumb-item active">Cart</li>
+            </ol>
+        </nav>  
+    </div>
+</div>
+
+<!-- CART CONTENT -->
+<div class="container py-5">
+    <div class="row g-4">
+        <!-- Cart Items -->
+        <div class="col-lg-8">
+            <div class="cart-table">
+                <table class="table table-borderless mb-0">
+                    <thead>
+                        <tr>
+                            <th>Product</th>
+                            <th>Price</th>
+                            <th>Quantity</th>
+                            <th>Total</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.cartItems)
+                        {
+                            <tr id="cart-row-@item.Id">
+                                <td>
+                                    <div class="d-flex align-items-center gap-3">
+                                        <div>
+                                            <div class="cart-product-name">@item.Product.Name</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="cart-price">@item.UnitPrice</td>
+                                <td>
+                                    <input type="number" class="qty-input form-control" data-id="@item.ProductId" value="@item.Quantity" min="1" max="@item.Product.Stock" style="width: 80px;" />
+                                </td>
+
+                                <td id="item-total-@item.ProductId" class="fw-bold">
+                                    $@(item.Quantity* item.UnitPrice)
+                                </td>
+                                <td>
+                                    <button class="btn-remove" data-id="@item.Id">
+                                        <i class="bi bi-trash3"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Cart Actions -->
+            <div class="d-flex justify-content-between mt-3 flex-wrap gap-2">
+                <a asp-controller="Product" asp-action="Index" class="btn btn-outline-secondary px-4"><i class="bi bi-arrow-left me-2"></i>Continue Shopping</a>
+                <button class="btn btn-outline-danger px-4">Clear Cart</button>
+            </div>
+
+            
+        </div>
+
+        <!-- Order Summary -->
+        <div class="col-lg-4">
+            <div class="order-summary">
+                <h5>Order Summary</h5>
+                <div class="d-flex justify-content-between mb-3 fw-bold fs-5 text-danger">
+                    <span>(Total):</span>
+                    <span id="cart-total">$@Model.Total</span>
+                </div>
+                <a asp-action="Checkout" class="d-block mt-4"><button class="btn-checkout">Proceed to Checkout <i class="bi bi-arrow-right ms-2"></i></button></a>
+                <div class="mt-3 text-center" style="font-size:.8rem;color:var(--text-muted);">
+                    <i class="bi bi-shield-check me-1"></i>Secure SSL Encrypted Checkout
+                </div>
+                <hr style="border-color:#ececec;" />
+                <div class="text-center" style="font-size:.82rem;color:var(--text-muted);">
+                    <div class="mb-2">We accept:</div>
+                    <div class="d-flex justify-content-center gap-2" style="font-size:1.4rem;">💳 <span>Visa</span> · <span>MC</span> · <span>PayPal</span></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+
+        $(document).on('change', '.qty-input', function () {
+                var input = $(this);
+                var pId = input.data('id');
+                let maxStock = parseInt(input.attr('max'));
+                var newQty = parseInt(input.val());
+
+                    if (newQty > maxStock) {
+            alert("عفواً، أقصى كمية متاحة من هذا المنتج هي " + maxStock + " قطع فقط!");
+            input.val(maxStock); 
+            newQuantity = maxStock; 
+        }
+
+                if (newQty < 1 || isNaN(newQty)) {
+                    input.val(1);
+                    newQty = 1;
+                }
+
+                $.ajax({
+                    url: '/Cart/UpdateCartItemQuantity',
+                    type: 'POST',
+                    data: { productId: pId, quantity: newQty },
+                    success: function (response) {
+                        if (response.success) {
+                            $('#item-total-' + pId).text('$' + response.itemTotal.toFixed(2));
+
+                            $('#cart-subtotal').text('$' + response.cartSubtotal.toFixed(2));
+                            $('#cart-total').text('$' + response.grandTotal.toFixed(2));
+                        } else {
+                            alert(response.message);
+                        }
+                    },
+                    error: function () {
+                        alert("حدث خطأ في الاتصال بالسيرفر.");
+                    }
+                });
+            });
+
+        });
+                $(document).on('click', '.btn-remove', function (e) {
+            e.preventDefault();
+
+            var btn = $(this);
+            var itemId = btn.data('id'); 
+
+            if (confirm("هل أنت متأكد أنك تريد حذف هذا المنتج من السلة؟")) {
+                $.ajax({
+                    url: '/Cart/DeleteCartItem',
+                    type: 'POST',
+                    data: { id: itemId },
+                    success: function (response) {
+                        if (response.success) {
+                            $('#cart-row-' + itemId).fadeOut(300, function() {
+                                $(this).remove();
+                            });
+
+                            $('#cart-total').text('$' + response.grandTotal.toFixed(2));
+                        } else {
+                            alert(response.message);
+                        }
+                    },
+                    error: function () {
+                        alert("حدث خطأ أثناء الحذف.");
+                    }
+                });
+            }
+        });
+                $('.btn-outline-danger').on('click', function (e) {
+            e.preventDefault();
+
+            if (confirm("هل أنت متأكد أنك تريد إفراغ السلة بالكامل؟")) {
+                $.ajax({
+                    url: '/Cart/ClearCart', 
+                    type: 'POST',
+                    success: function (response) {
+                        if (response.success) {
+                            $('tbody').fadeOut(300, function() {
+                                $(this).empty(); 
+                            });
+
+                            $('#cart-subtotal').text('$0.00');
+                            $('#cart-tax').text('$0.00');
+                            $('#cart-total').text('$' + response.grandTotal.toFixed(2));
+                        } else {
+                            alert(response.message);
+                        }
+                    }
+                });
+            }
+        });
+    </script>
+}

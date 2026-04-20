@@ -1,0 +1,30 @@
+﻿@model IEnumerable<Order>
+
+
+@foreach (var order in Model)
+{
+    <tr>
+        <td>
+            <strong>@order.Id</strong>
+        </td>
+        <td>
+            <div style="font-size:.88rem;">@order.User.Name</div>
+        </td>
+        <td>@order.OrderItems.Count() Items</td>
+        <td><strong>@order.TotalPrice</strong></td>
+        <td><strong>@order.City</strong></td>
+        <td><strong>@order.ShippingAddress</strong></td>
+        <td style="font-size:.85rem;">@order.CreatedAt.ToString("MMM/dd//yyyy")</td>
+        <td>
+            <span class="badge-status badge-@order.Status">@order.Status</span>
+        </td>
+        <td>
+            <button class="btn-tbl btn-tbl-view">
+                <i class="bi bi-eye"></i>
+            </button><button class="btn-tbl btn-tbl-edit" onclick="openEditModal('@order.Id', '@order.Status')">
+                <i class="bi bi-pencil"></i>
+            </button>
+        </td>
+    </tr>
+}
+

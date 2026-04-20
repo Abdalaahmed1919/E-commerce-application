@@ -1,0 +1,493 @@
+﻿@model ProductsAndCategoriesViewModel;
+
+@{
+    ViewData["Title"] = "Products";
+}
+
+<style>
+    :root {
+        --primary: #1a1a2e;
+        --accent: #e94560;
+        --gold: #f5a623;
+        --light-bg: #f8f7f4;
+        --text-muted: #7a7a8c;
+    }
+
+    body {
+        font-family: 'DM Sans',sans-serif;
+        background: var(--light-bg);
+        color: var(--primary);
+    }
+
+
+    /* PAGE HEADER */
+    .page-header {
+        background: var(--primary);
+        color: #fff;
+        padding: 40px 0;
+    }
+
+        .page-header h1 {
+            font-family: 'Playfair Display',serif;
+            font-size: 2.2rem;
+        }
+
+    .breadcrumb-item a {
+        color: rgba(255,255,255,.6);
+        text-decoration: none;
+    }
+
+    .breadcrumb-item.active {
+        color: var(--accent);
+    }
+
+    .breadcrumb-item + .breadcrumb-item::before {
+        color: rgba(255,255,255,.4);
+    }
+
+    /* SIDEBAR FILTER */
+    .filter-card {
+        background: #fff;
+        border-radius: 12px;
+        padding: 22px;
+        border: 1px solid #ececec;
+    }
+
+    .filter-title {
+        font-weight: 700;
+        font-size: 1rem;
+        margin-bottom: 14px;
+        padding-bottom: 10px;
+        border-bottom: 1px solid #ececec;
+    }
+
+    .filter-label {
+        font-size: .88rem;
+        cursor: pointer;
+    }
+
+    .price-range {
+        accent-color: var(--accent);
+    }
+
+    /* PRODUCT CARD */
+    .product-card {
+        background: #fff;
+        border-radius: 12px;
+        overflow: hidden;
+        border: 1px solid #ececec;
+        transition: transform .2s, box-shadow .2s;
+        height: 100%;
+    }
+
+        .product-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 30px rgba(0,0,0,.1);
+        }
+
+    .product-img {
+        background: #f0ede8;
+        height: 190px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 3.8rem;
+        position: relative;
+    }
+
+    .badge-sale {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        background: var(--accent);
+        color: #fff;
+        font-size: .72rem;
+        padding: 3px 10px;
+        border-radius: 20px;
+        font-weight: 600;
+    }
+
+    .wishlist-btn {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        background: #fff;
+        border: none;
+        border-radius: 50%;
+        width: 32px;
+        height: 32px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        box-shadow: 0 2px 8px rgba(0,0,0,.12);
+    }
+
+        .wishlist-btn:hover {
+            color: var(--accent);
+        }
+
+    .product-body {
+        padding: 14px;
+    }
+
+    .product-cat {
+        font-size: .75rem;
+        color: var(--text-muted);
+        margin-bottom: 3px;
+    }
+
+    .product-title {
+        font-weight: 600;
+        font-size: .92rem;
+        margin-bottom: 4px;
+    }
+
+    .stars {
+        color: var(--gold);
+        font-size: .78rem;
+    }
+
+    .product-price {
+        font-size: 1.05rem;
+        font-weight: 700;
+        color: var(--accent);
+    }
+
+    .product-price-old {
+        text-decoration: line-through;
+        color: var(--text-muted);
+        font-size: .82rem;
+        margin-left: 5px;
+    }
+
+    .btn-add {
+        background: var(--primary);
+        color: #fff;
+        border: none;
+        padding: 8px;
+        border-radius: 6px;
+        font-size: .83rem;
+        font-weight: 500;
+        width: 100%;
+        transition: background .2s;
+    }
+
+        .btn-add:hover {
+            background: var(--accent);
+        }
+
+    /* SORT BAR */
+    .sort-bar {
+        background: #fff;
+        border-radius: 10px;
+        padding: 12px 18px;
+        border: 1px solid #ececec;
+    }
+
+        .sort-bar select {
+            border: none;
+            font-family: 'DM Sans',sans-serif;
+            font-size: .9rem;
+            color: var(--primary);
+            background: transparent;
+            outline: none;
+            cursor: pointer;
+        }
+
+    /* PAGINATION */
+    .pagination .page-link {
+        color: var(--primary);
+        border-color: #ececec;
+    }
+
+    .pagination .page-item.active .page-link {
+        background: var(--accent);
+        border-color: var(--accent);
+        color: #fff;
+    }
+
+    .pagination .page-link:hover {
+        background: var(--accent);
+        color: #fff;
+        border-color: var(--accent);
+    }
+
+</style>
+
+<div class="page-header">
+    <div class="container">
+        <h1>All Products</h1>
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb mb-0 mt-2">
+                <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index" >Home</a></li>
+                <li class="breadcrumb-item active">Products</li>
+            </ol>
+        </nav>
+    </div>
+</div>
+
+<!-- MAIN CONTENT -->
+<div class="container py-5">
+    <div class="row g-4">
+
+        <!-- SIDEBAR -->
+        <div class="col-lg-3">
+            <div class="filter-card mb-3">
+                <div class="filter-title"><i class="bi bi-funnel me-2"></i>Filter by Category</div>
+
+                <div class="form-check mb-2">
+                    <input class="form-check-input" type="radio" name="categoryFilter" value="All" id="cat-all" checked />
+                    <label class="form-check-label filter-label" for="cat-all">All Categories</label>
+                </div>
+
+                @foreach (var item in Model.Categories)
+                {
+                    <div class="form-check mb-2">
+                        <input class="form-check-input" type="radio" name="categoryFilter" value="@item.Name" id="cat-@item.Id" />
+                        <label class="form-check-label filter-label" for="cat-@item.Id">@item.Name</label>
+                    </div>
+                }
+            </div>
+ 
+            <div class="filter-card mb-3">
+                <div class="filter-title d-flex justify-content-between align-items-center mb-2">
+                    <span><i class="bi bi-cash-coin me-2"></i>Price Range</span>
+                    <span id="priceVal" class="badge text-white px-2 py-1" style="background-color: var(--accent, #0d6efd);">$300</span>
+                </div>
+                @{
+                    var maxPrice = Model.Products.Max(p => p.Price);
+
+                }
+                <input type="range" class="form-range price-range" min="0" max="50000" value="@maxPrice" id="priceRange" />
+
+                <div class="d-flex justify-content-between" style="font-size:.83rem;color:var(--text-muted);">
+                    <span>$0</span>
+                    <span>$50000</span>
+                </div>
+            </div>
+
+
+        </div>
+
+        <!-- PRODUCTS GRID -->
+        <div class="col-lg-9">
+            <!-- Sort Bar -->
+            <div class="sort-bar d-flex align-items-center justify-content-between mb-4 flex-wrap gap-2">
+                <span style="font-size:.9rem;color:var(--text-muted);">Showing <strong style="color:var(--primary)" class="NumOfProductsShow">10</strong> of @Model.Products.Count() products</span>
+                <div class="d-flex align-items-center gap-3">
+                    <label style="font-size:.88rem;color:var(--text-muted);">Sort by:</label>
+                    <select class="SortProduts">
+                        <option value="1">Featured</option>
+                        <option value="2">Price: Low to High</option>
+                        <option value="3">Price: High to Low</option>
+                        <option value="4">Newest</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="row g-3">
+                <!-- 8 product cards -->
+                @foreach (var item in Model.Products.Take(10))
+                {
+                    <div class="col-6 col-md-4 col-lg-3 mb-3">
+                        <div class="product-card h-100">
+
+                            <div class="product-img position-relative overflow-hidden" style="border-radius: 8px 8px 0 0;">
+
+                                @* <span class="badge bg-danger position-absolute top-0 start-0 m-2" style="z-index: 10;">-20%</span> *@
+
+                                <img src="@item.ImageUrl"
+                                     class="w-100 d-block" s alt="@item.Name" style="height: 204px; object-fit: contain;" />
+                            </div>
+
+                            <div class="product-body p-3">
+                                <div class="product-category">@item.Category.Name</div>
+                                <div class="product-title fw-bold">@item.Name</div>
+                                <div class="d-flex align-items-center mb-3">
+                                    <span class="product-price">@item.Price</span>
+                                    @{
+                                        var oldprice = item.Price + (item.Price * 0.2m);
+                                    }
+                                    <span class="product-price-old text-muted ms-2 text-decoration-line-through" style="font-size: 0.9em;">@oldprice</span>
+                                </div>
+                                @if(item.Stock > 0)
+                                {
+                                    <button class="btn-add w-100 add-to-cart-btn" data-id="@item.Id">Add to Cart</button>
+                                }else
+                                {
+                                    <button class="btn btn-secondary w-100 mt-3" disabled>
+                                        Out of Stock <i class="bi bi-exclamation-circle"></i>
+                                    </button>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+
+            <!-- PAGINATION -->
+            <nav class="mt-5 d-flex justify-content-center">
+                <ul class="pagination">
+                    @{
+                    var totalPages = (int)Math.Ceiling(Model.Products.Count() / 10.0);
+                    
+                    }
+                  
+                    @for (int i = 1; i <= totalPages; i++)
+                    {
+                        if (i == 1)
+                        {
+                            <li class="page-item active"><a onclick="getPage(@i,this)" class="page-link" href="">@i</a></li>
+                            continue;
+                        }
+                        <li class="page-item "><a onclick="getPage(@i,this)" class="page-link" href="">@i</a></li>
+                    }
+                </ul>
+            </nav>
+        </div>
+    </div>
+</div>
+  <script src="/lib/jquery/dist/jquery.min.js"></script>
+<script>
+
+          function getCurrentCategory() {
+          return $('input[name="categoryFilter"]:checked').val();
+             }
+
+          function getCurrentPrice() {
+            let priceInput = $('#priceRange').val();
+            return priceInput ? priceInput : "";
+           }
+
+          function getPage(pageNumber, clickedLink) {
+                event.preventDefault();
+              let maindiv = document.querySelector('.row.g-3');
+              let NumOfProductsShow = document.querySelector('.NumOfProductsShow');
+
+               let currentSort = $('.SortProduts').val();
+               let catogryName = getCurrentCategory();
+               let getPrice = getCurrentPrice();
+
+                    $.ajax({
+                            url: "/product/Pagination?pagenumber=" + pageNumber + "&SortType=" + currentSort + "&catogryName=" + catogryName + "&maxPrice" + getPrice, success: function(result){
+                             maindiv.innerHTML = result;
+                             let productsCount = $('.row.g-3 .product-card').length;
+                             NumOfProductsShow.innerHTML = productsCount;
+                            $('.page-item').removeClass('active');
+
+                           $(clickedLink).parent('.page-item').addClass('active');
+
+                           let productsSection = document.querySelector('.row.g-3');
+                             window.scrollTo({
+                             top: productsSection.offsetTop - 150,
+                             behavior: 'smooth'
+               });
+
+         }});
+    }
+
+          $('.SortProduts').on('change' , function() {
+              let newSort = $(this).val();
+              let maindiv = document.querySelector('.row.g-3');
+              let currentCat = $('input[name="categoryFilter"]:checked').val();
+              let getprice = getCurrentPrice();
+
+                      $.ajax({
+                                url: "/product/Pagination?pagenumber=1&SortType=" + newSort + "&catogryName=" + currentCat + "&maxPrice=" + getprice, success: function(result){
+                                maindiv.innerHTML = result;
+
+                               let productsCount = $('.row.g-3 .product-card').length;
+                               NumOfProductsShow.innerHTML = productsCount;
+
+                                   $('.page-item').removeClass('active');
+                                    $('.page-item a').filter(function() {
+                                        return $(this).text().trim() === '1';
+                                    }).parent('.page-item').addClass('active');
+
+                      }});
+
+          })
+
+          $('input[name="categoryFilter"]').on('change', function() {
+                     let selectedCat = $(this).val();
+                     let currentSort = $('.SortProduts').val();
+                     let maindiv = document.querySelector('.row.g-3');
+                     let NumOfProductsShow = document.querySelector('.NumOfProductsShow');
+                     let getprice = getCurrentPrice();
+
+
+                      console.log(getprice);
+                     $.ajax({
+                             url: "/product/Pagination?pageNumber=1&SortType=" + currentSort + "&catogryName=" + selectedCat + "&maxPrice=" + getprice,
+                         success: function(result){
+                             maindiv.innerHTML = result;
+                              let productsCount = $('.row.g-3 .product-card').length;
+                               NumOfProductsShow.innerHTML = productsCount;
+
+                             $('.page-item').removeClass('active');
+                             $('.page-item a').filter(function() {
+                                 return $(this).text().trim() === '1';
+                             }).parent('.page-item').addClass('active');
+                         }
+                     });
+                 });
+
+          $('#priceRange').on('input', function() {
+          let currentVal = $(this).val();
+          $('#priceVal').text('$' + currentVal);
+          });
+
+          $('#priceRange').on('change', function() {
+
+          let selectedPrice = $(this).val();
+          let currentSort = $('.SortProduts').val();
+          let currentCat = getCurrentCategory();
+
+          let maindiv = document.querySelector('.row.g-3');
+          let NumOfProductsShow = document.querySelector('.NumOfProductsShow');
+
+          $.ajax({
+              url: "/product/Pagination?pageNumber=1&SortType=" + currentSort + "&categoryName=" + currentCat + "&maxPrice=" + selectedPrice,
+              success: function(result){
+                  maindiv.innerHTML = result;
+
+                  let productsCount = $('.row.g-3 .product-card').length;
+                  if(NumOfProductsShow) NumOfProductsShow.innerHTML = productsCount;
+
+                  $('.page-item').removeClass('active');
+                  $('.page-item a').filter(function() {
+                      return $(this).text().trim() === '1';
+                  }).parent('.page-item').addClass('active');
+              }
+          });
+      });
+          $(document).ready(function () {
+          $(document).on('click', '.add-to-cart-btn', function (e) {
+              e.preventDefault();
+
+              var btn = $(this);
+              var pId = btn.data('id');
+
+              $.ajax({
+                      url: '/Product/AddToCart',
+                    type: 'POST',
+                    data: { productId: pId },
+                  success: function (response) {
+                      if (response.success) {
+
+                          alert(response.message);
+
+                      }
+                  },
+                  error: function (xhr) {
+                      if (xhr.status === 401) {
+                          window.location.href = '/Account/Login';
+                      } else {
+                          alert("حصلت مشكلة واحنا بنضيف المنتج!");
+                      }
+                  }
+              });
+          });
+      });
+</script>

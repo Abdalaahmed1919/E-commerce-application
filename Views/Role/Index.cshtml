@@ -1,0 +1,252 @@
+﻿@model RoleViewModel
+
+@{
+    ViewData["Title"] = "Add New Role";
+}
+
+<style>
+    :root {
+        --primary: #1a1a2e;
+        --accent: #e94560;
+        --light-bg: #f8f7f4;
+        --text-muted: #7a7a8c;
+    }
+
+    * {
+        box-sizing: border-box;
+    }
+
+    body {
+        font-family: 'DM Sans',sans-serif;
+        background: var(--light-bg);
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+    }
+
+    /* SPLIT LAYOUT */
+    .auth-wrapper {
+        flex: 1;
+        display: flex;
+    }
+
+    .auth-left {
+        background: linear-gradient(135deg, var(--primary) 0%, #16213e 60%, #0f3460 100%);
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 60px 50px;
+        color: #fff;
+        position: relative;
+        overflow: hidden;
+    }
+
+        .auth-left::after {
+            content: '';
+            position: absolute;
+            bottom: -80px;
+            right: -80px;
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, rgba(233,69,96,.25) 0%, transparent 70%);
+            border-radius: 50%;
+        }
+
+        .auth-left h2 {
+            font-family: 'Playfair Display',serif;
+            font-size: 2.4rem;
+            line-height: 1.2;
+        }
+
+            .auth-left h2 span {
+                color: var(--accent);
+            }
+
+        .auth-left p {
+            color: rgba(255,255,255,.7);
+            font-size: 1rem;
+            max-width: 340px;
+        }
+
+    .feature-item {
+        display: flex;
+        align-items: flex-start;
+        gap: 12px;
+        margin-bottom: 16px;
+    }
+
+    .feature-icon {
+        width: 40px;
+        height: 40px;
+        background: rgba(233,69,96,.2);
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        font-size: 1.1rem;
+    }
+
+    .auth-right {
+        width: 480px;
+        background: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 50px 50px;
+    }
+
+    .auth-card {
+        width: 100%;
+    }
+
+    .auth-title {
+        font-family: 'Playfair Display',serif;
+        font-size: 1.9rem;
+        font-weight: 700;
+        margin-bottom: 6px;
+    }
+
+    .auth-subtitle {
+        color: var(--text-muted);
+        font-size: .9rem;
+        margin-bottom: 28px;
+    }
+
+    .form-label {
+        font-size: .88rem;
+        font-weight: 500;
+        color: var(--primary);
+        margin-bottom: 4px;
+    }
+
+    .form-control {
+        border: 1.5px solid #e0ddd8;
+        border-radius: 8px;
+        font-family: 'DM Sans',sans-serif;
+        font-size: .92rem;
+        padding: 11px 14px;
+        transition: border-color .2s;
+    }
+
+        .form-control:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(233,69,96,.12);
+        }
+
+    .btn-login {
+        background: var(--accent);
+        color: #fff;
+        border: none;
+        width: 100%;
+        padding: 13px;
+        border-radius: 8px;
+        font-weight: 600;
+        font-size: 1rem;
+        transition: opacity .2s, transform .1s;
+    }
+
+        .btn-login:hover {
+            opacity: .88;
+            transform: translateY(-1px);
+        }
+
+    .link-accent {
+        color: var(--accent);
+        text-decoration: none;
+        font-weight: 600;
+    }
+
+        .link-accent:hover {
+            text-decoration: underline;
+        }
+
+    @@media(max-width:768px) {
+        .auth-left {
+            display: none;
+        }
+
+        .auth-right {
+            width: 100%;
+            padding: 40px 24px;
+        }
+    }
+
+    /* === تنسيقات الـ Validation === */
+    .field-validation-error {
+        color: #dc3545;
+        font-size: 0.8rem;
+        font-weight: 500;
+        margin-top: 5px;
+        display: block;
+    }
+
+    .validation-summary-errors {
+        background-color: rgba(220, 53, 69, 0.1);
+        color: #dc3545;
+        padding: 12px 15px;
+        border-radius: 8px;
+        margin-bottom: 20px;
+        font-size: 0.85rem;
+        border: 1px solid rgba(220, 53, 69, 0.2);
+    }
+
+        .validation-summary-errors ul {
+            margin: 0;
+            padding-left: 20px;
+        }
+</style>
+<body>
+
+    <div class="auth-wrapper">
+        <div class="auth-left d-none d-md-flex">
+            <div style="max-width:380px;position:relative;z-index:1;">
+                <div style="font-size:3rem;margin-bottom:16px;">🛡️</div>
+                <h2>ShopNest <span>Admin</span></h2>
+                <p class="mt-3 mb-4">Secure and manage your platform. Create specific roles to control access levels across the system.</p>
+                <div class="feature-item">
+                    <div class="feature-icon">🔐</div>
+                    <div><strong>Access Control</strong><div style="font-size:.83rem;color:rgba(255,255,255,.6);margin-top:2px;">Define exactly what each user can see and do</div></div>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">⚡</div>
+                    <div><strong>Easy Management</strong><div style="font-size:.83rem;color:rgba(255,255,255,.6);margin-top:2px;">Assign or revoke roles with a single click</div></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="auth-right">
+            <div class="auth-card">
+                <div class="auth-title">Add New Role</div>
+                <div class="auth-subtitle">Create a new permission level for users.</div>
+
+                <div asp-validation-summary="ModelOnly"></div>
+
+                <form asp-action="AddRole" method="post">
+                    <div class="mb-4">
+                        <label asp-for="RoleName" class="form-label">Role Name <span class="text-danger">*</span></label>
+                        <input asp-for="RoleName" class="form-control" placeholder="e.g. Moderator, Editor, Seller..." />
+                        <span asp-validation-for="RoleName"></span>
+                    </div>
+
+                    <button type="submit" class="btn-login mb-3">Create Role <i class="bi bi-shield-lock ms-2"></i></button>
+
+                    <div class="text-center">
+                        <a asp-action="Index" class="link-accent" style="font-size: .9rem;"><i class="bi bi-arrow-left me-1"></i> Back to Roles List</a>
+                    </div>
+                </form>
+
+                <hr style="border-color:#ececec;margin:30px 0 20px;" />
+                <div class="text-center mt-4" style="font-size:.83rem;color:var(--text-muted);">
+                    <i class="bi bi-info-circle me-1"></i>Only administrators can access this page.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @section Scripts {
+        <partial name="_ValidationScriptsPartial" />
+    }
+</body>

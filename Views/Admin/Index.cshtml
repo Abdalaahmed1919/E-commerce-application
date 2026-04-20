@@ -1,0 +1,76 @@
+﻿@model OrdersAdminViewModel;
+@{
+    ViewData["Title"] = "Index";
+    ViewData["MainKey"] = "Dashboard";
+}
+<style>
+
+</style>
+
+<div id="section-dashboard">
+    <!-- Stat Cards -->
+    <div class="row g-3 mb-4">
+        <div class="col-6 col-xl-3">
+            <div class="stat-card revenue">
+                <div class="stat-icon" style="background:#eafaf1;"><span style="color:var(--success);">💰</span></div>
+                <div class="stat-value">@Model.TotalMoney</div>
+                <div class="stat-label">Total Revenue</div>
+                <div class="stat-change up mt-1"><i class="bi bi-arrow-up-short"></i>+12.5% this month</div>
+            </div>
+        </div>
+        <div class="col-6 col-xl-3">
+            <div class="stat-card orders">
+                <div class="stat-icon" style="background:#e8f4fd;"><span style="color:var(--info);">📦</span></div>
+                <div class="stat-value">@Model.TotalOrders</div>
+                <div class="stat-label">Total Orders</div>
+                <div class="stat-change up mt-1"><i class="bi bi-arrow-up-short"></i>+8.2% this month</div>
+            </div>
+        </div>
+        <div class="col-6 col-xl-3">
+            <div class="stat-card customers">
+                <div class="stat-icon" style="background:#fef9e7;"><span style="color:var(--gold);">👥</span></div>
+                <div class="stat-value">@Model.totalUsers</div>
+                <div class="stat-label">Total Customers</div>
+                <div class="stat-change up mt-1"><i class="bi bi-arrow-up-short"></i>+5.1% this month</div>
+            </div>
+        </div>
+        <div class="col-6 col-xl-3">
+            <div class="stat-card products">
+                <div class="stat-icon" style="background:#fdecea;"><span style="color:var(--accent);">🛍️</span></div>
+                <div class="stat-value">@Model.ActiveProducts</div>
+                <div class="stat-label">Active Products</div>
+                <div class="stat-change down mt-1"><i class="bi bi-arrow-down-short"></i>3 low stock</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row g-3 mb-4">
+    </div>
+
+    <!-- Recent Orders -->
+    <div class="section-card mb-4">
+        <div class="section-card-header">
+            <h6>Recent Orders</h6>
+            <a asp-action="Orders" asp-controller="Admin" class="btn btn-sm btn-outline-secondary" style="font-size:.8rem;" onclick="showSection('orders')">View All</a>
+        </div>
+        <div style="overflow-x:auto;">
+            <table class="admin-table">
+                <thead><tr><th>Order ID</th><th>Customer</th><th>Items</th><th>Total</th><th>Date</th><th>Status</th></tr></thead>
+                <tbody>
+                    @foreach (var order in Model.Orders) {
+                        <tr>
+                            <td><strong>@order.Id</strong>
+                            </td>
+                            <td>@order.User.Name</td>
+                            <td>@order.OrderItems.Count()</td>
+                            <td><strong>@order.TotalPrice</strong></td>
+                            <td>@order.CreatedAt.ToString("MMM/dd/yyyy")</td>
+                            <td><span class="badge-status badge-@order.Status">@order.Status</span></td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+

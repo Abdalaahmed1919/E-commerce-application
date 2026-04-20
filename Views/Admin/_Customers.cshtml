@@ -1,0 +1,46 @@
+﻿@model List<AppUser>
+
+@foreach (var user in Model)
+{
+    <tr>
+        <td>
+            <div class="d-flex align-items-center gap-2">
+                <div style="width:34px; height:34px; background:#f0ede8; border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:.85rem;">
+                    @(string.Join("", (user.Name ?? "").Split(' ', StringSplitOptions.RemoveEmptyEntries).Take(2).Select(w => w[0])).ToUpper())
+                </div>
+                <span style="font-size:.88rem; font-weight:600;">
+                    @user.Name
+                </span>
+            </div>
+        </td>
+
+        <td style="font-size:.85rem;">
+            <span style="font-size:.88rem; font-weight:600;">
+                @user.Email
+            </span>
+        </td>
+
+        <td style="font-size:.85rem;">
+            @user.PhoneNumber
+        </td>
+
+        <td>
+            @user.Orders.Count
+        </td>
+
+
+        <td style="font-weight:600; color:var(--success);">
+            @user.Orders.Where(o => o.Status.ToString() != "Cancelled").Sum(o => o.TotalPrice)
+        </td>
+
+        <td style="font-size:.82rem;">
+            @user.CreatedAt.ToString("MMM/dd//yyyy")
+        </td>
+        <td>
+            <button class="btn-tbl btn-tbl-del delete-user-btn" data-id="@user.Id">
+                <i class="bi bi-trash3"></i>
+            </button>
+
+        </td>
+    </tr>
+}

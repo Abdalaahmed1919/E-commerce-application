@@ -1,0 +1,328 @@
+﻿
+
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<style>
+    /* HERO */
+    .hero {
+        background: linear-gradient(135deg, var(--primary) 0%, #16213e 60%, #0f3460 100%);
+        color: #fff;
+        padding: 100px 0 80px;
+        position: relative;
+        overflow: hidden;
+    }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            right: -60px;
+            top: -60px;
+            width: 420px;
+            height: 420px;
+            background: radial-gradient(circle, rgba(233,69,96,0.18) 0%, transparent 70%);
+            border-radius: 50%;
+        }
+
+        .hero h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3.5rem;
+            line-height: 1.15;
+        }
+
+            .hero h1 span {
+                color: var(--accent);
+            }
+
+        .hero p {
+            font-size: 1.1rem;
+            color: rgba(255,255,255,0.75);
+            max-width: 500px;
+        }
+
+    .btn-accent {
+        background: var(--accent);
+        color: #fff;
+        border: none;
+        padding: 12px 30px;
+        border-radius: 6px;
+        font-weight: 600;
+        transition: transform .2s, box-shadow .2s;
+    }
+
+        .btn-accent:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(233,69,96,0.4);
+            color: #fff;
+        }
+
+    .hero-img-placeholder {
+        background: rgba(255,255,255,0.07);
+        border-radius: 16px;
+        height: 320px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 6rem;
+    }
+
+    /* CATEGORIES */
+    .section-title {
+        font-family: 'Playfair Display', serif;
+        font-size: 2rem;
+        font-weight: 700;
+    }
+
+    .category-card {
+        background: var(--card-bg);
+        border-radius: 12px;
+        padding: 28px 20px;
+        text-align: center;
+        cursor: pointer;
+        transition: transform .2s, box-shadow .2s;
+        border: 1px solid #ececec;
+        text-decoration: none;
+        color: var(--primary);
+    }
+
+        .category-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 30px rgba(0,0,0,0.1);
+            color: var(--accent);
+        }
+
+    .category-icon {
+        font-size: 2.4rem;
+        margin-bottom: 10px;
+        display: block;
+    }
+
+    /* PRODUCTS */
+    .product-card {
+        background: var(--card-bg);
+        border-radius: 12px;
+        overflow: hidden;
+        border: 1px solid #ececec;
+        transition: transform .2s, box-shadow .2s;
+    }
+
+        .product-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 30px rgba(0,0,0,0.1);
+        }
+
+    .product-img {
+        background: #f0ede8;
+        height: 200px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 4rem;
+        position: relative;
+    }
+
+    .badge-sale {
+        position: absolute;
+        top: 12px;
+        left: 12px;
+        background: var(--accent);
+        color: #fff;
+        font-size: 0.72rem;
+        padding: 3px 10px;
+        border-radius: 20px;
+        font-weight: 600;
+    }
+
+    .product-body {
+        padding: 16px;
+    }
+
+    .product-title {
+        font-weight: 600;
+        font-size: 0.95rem;
+        margin-bottom: 4px;
+    }
+
+    .product-category {
+        font-size: 0.78rem;
+        color: var(--text-muted);
+        margin-bottom: 8px;
+    }
+
+    .product-price {
+        font-size: 1.1rem;
+        font-weight: 700;
+        color: var(--accent);
+    }
+
+    .product-price-old {
+        text-decoration: line-through;
+        color: var(--text-muted);
+        font-size: 0.85rem;
+        margin-left: 6px;
+    }
+
+    .stars {
+        color: var(--gold);
+        font-size: 0.8rem;
+    }
+
+    .btn-add {
+        background: var(--primary);
+        color: #fff;
+        border: none;
+        padding: 8px 16px;
+        border-radius: 6px;
+        font-size: 0.85rem;
+        font-weight: 500;
+        width: 100%;
+        transition: background .2s;
+    }
+
+        .btn-add:hover {
+            background: var(--accent);
+        }
+
+    /* BANNER */
+    .promo-banner {
+        background: linear-gradient(90deg, var(--accent), #c0392b);
+        color: #fff;
+        border-radius: 14px;
+        padding: 40px 40px;
+    }
+
+        .promo-banner h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.2rem;
+        }
+
+</style>
+
+<section class="hero">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6">
+                <p class="text-uppercase" style="color:var(--gold);font-weight:600;letter-spacing:2px;font-size:.85rem;">New Season Arrivals</p>
+                <h1>Discover <span>Premium</span> Products You'll Love</h1>
+                <p class="mt-3 mb-4">Curated collections for modern living. Quality meets style in every piece we offer.</p>
+                <div class="d-flex gap-3">
+                    <a asp-controller="Product" asp-action="Index" class="btn btn-accent">Shop Now <i class="bi bi-arrow-right ms-1"></i></a>
+                    <a href="#" class="btn btn-outline-light px-4">View Deals</a>
+                </div>
+                <div class="d-flex gap-4 mt-5">
+                    <div><div style="font-family:'Playfair Display',serif;font-size:1.8rem;color:#fff;font-weight:700;">12K+</div><div style="color:rgba(255,255,255,.6);font-size:.85rem;">Products</div></div>
+                    <div style="width:1px;background:rgba(255,255,255,.15)"></div>
+                    <div><div style="font-family:'Playfair Display',serif;font-size:1.8rem;color:#fff;font-weight:700;">98%</div><div style="color:rgba(255,255,255,.6);font-size:.85rem;">Happy Clients</div></div>
+                    <div style="width:1px;background:rgba(255,255,255,.15)"></div>
+                    <div><div style="font-family:'Playfair Display',serif;font-size:1.8rem;color:#fff;font-weight:700;">24/7</div><div style="color:rgba(255,255,255,.6);font-size:.85rem;">Support</div></div>
+                </div>
+            </div>
+            <div class="col-lg-6 mt-5 mt-lg-0">
+                <div class="hero-img-placeholder">🛍️</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CATEGORIES -->
+<section class="py-5 mt-2">
+    <div class="container">
+        <div class="d-flex align-items-center justify-content-between mb-4">
+            <h2 class="section-title mb-0">Categories</h2>
+        </div>
+        <div class="row g-3">
+            @foreach (var item in ViewBag.Categories)
+            {
+                <div class="col-6 col-md-3 col-lg-2">
+                    <a  class="category-card d-block">
+                        <span class="category-icon">@item.Id</span>
+                    <div class="fw-600 fs-sm">@item.Name</div>
+                </a>
+            </div>
+            }
+        </div>
+    </div>
+</section>
+
+<!-- FEATURED PRODUCTS -->
+<section class="py-4">
+    <div class="container">
+        <div class="d-flex align-items-center justify-content-between mb-4">
+            <h2 class="section-title mb-0">The cheapest Products</h2>
+            <a  class="text-decoration-none" style="color:var(--accent);font-weight:600;" asp-controller="Product" asp-action="Index">View All <i class="bi bi-arrow-right"></i></a>
+        </div>
+        <div class="row g-4">
+            <!-- Product 1 -->
+            @foreach (Product item in ViewBag.Products)
+            {
+                <div class="col-6 col-md-4 col-lg-3 mb-3">
+                    <div class="product-card h-100">
+
+                        <div class="product-img position-relative overflow-hidden" style="border-radius: 8px 8px 0 0;">
+
+                            @* <span class="badge bg-danger position-absolute top-0 start-0 m-2" style="z-index: 10;">-20%</span> *@
+
+                            <img src="@item.ImageUrl" 
+                            class="w-100 d-block" s alt="@item.Name" style="height: 204px; object-fit: contain;" />
+                        </div>
+
+                        <div class="product-body p-3">
+                            <div class="product-category">@item.Category.Name</div>
+                            <div class="product-title fw-bold">@item.Name</div>
+                            <div class="d-flex align-items-center mb-3">
+                                <span class="product-price">@item.Price</span>
+                                @{
+                                    var oldprice = item.Price + (item.Price * 0.2m);
+                                }
+                                <span class="product-price-old text-muted ms-2 text-decoration-line-through" style="font-size: 0.9em;">@oldprice</span>
+                            </div>
+                            @if (item.Stock > 0)
+                            {
+                                <button class="btn-add w-100 add-to-cart-btn" data-id="@item.Id">Add to Cart</button>
+                            }
+                            else
+                            {
+                                <button class="btn btn-secondary w-100 mt-3" disabled>
+                                    Out of Stock <i class="bi bi-exclamation-circle"></i>
+                                </button>
+                            }
+                        </div>
+                    </div>
+                </div>
+            }
+       </div>
+    </div>
+</section>
+@section Scripts {
+<script>
+     $(document).ready(function () {
+        $(document).on('click', '.add-to-cart-btn', function (e) {
+            e.preventDefault();
+
+            var btn = $(this);
+            var pId = btn.data('id');
+
+            $.ajax({
+                    url: '/Product/AddToCart',
+                  type: 'POST',
+                  data: { productId: pId },
+                success: function (response) {
+                    if (response.success) {
+
+                        alert(response.message);
+
+                    }
+                },
+                error: function (xhr) {
+                    if (xhr.status === 401) {
+                        window.location.href = '/Account/Login';
+                    } else {
+                        alert("حصلت مشكلة واحنا بنضيف المنتج!");
+                    }
+                }
+            });
+        });
+    });
+</script>
+}

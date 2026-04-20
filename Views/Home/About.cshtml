@@ -1,0 +1,89 @@
+﻿@{
+    ViewData["Title"] = "About Us - ShopNest";
+}
+
+<div class="page-header bg-dark text-white text-center py-5 mb-5">
+    <div class="container">
+        <h1 class="display-4 fw-bold">About ShopNest</h1>
+        <p class="lead text-white-50">Your ultimate destination for quality and style.</p>
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb justify-content-center mb-0 mt-3">
+                <li class="breadcrumb-item"><a href="/Home/Index" class="text-white-50 text-decoration-none">Home</a></li>
+                <li class="breadcrumb-item active text-white" aria-current="page">About Us</li>
+            </ol>
+        </nav>
+    </div>
+</div>
+
+<div class="container py-4">
+    <div class="row align-items-center mb-5 pb-5 border-bottom">
+        <div class="col-lg-6 mb-4 mb-lg-0">
+            <img src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="About ShopNest" class="img-fluid rounded-4 shadow-lg" />
+        </div>
+        <div class="col-lg-6 px-lg-5">
+            <h6 class="text-danger fw-bold text-uppercase tracking-wide mb-2">Our Story</h6>
+            <h2 class="fw-bold mb-4">Welcome to ShopNest</h2>
+            <p class="text-muted mb-4" style="line-height: 1.8;">
+                بدأنا فكرة <strong>ShopNest</strong> بهدف واحد: تقديم تجربة تسوق إلكتروني سهلة، سريعة، وموثوقة. نحن نؤمن بأن الجودة لا يجب أن تأتي بأسعار باهظة، لذلك نعمل جاهدين لتوفير أفضل المنتجات التي تناسب احتياجاتك اليومية.
+            </p>
+            <p class="text-muted mb-4" style="line-height: 1.8;">
+                سواء كنت تبحث عن أحدث صيحات الموضة، أو إلكترونيات عالية الجودة، فإن ShopNest هو بيتك الأول للتسوق. نحن نهتم بكل تفصيلة، من لحظة دخولك للموقع، وحتى وصول طلبك إلى باب منزلك.
+            </p>
+            <a href="/Product/Index" class="btn btn-dark px-4 py-2 rounded-pill fw-bold mt-2">
+                Explore Our Products <i class="bi bi-arrow-right ms-2"></i>
+            </a>
+        </div>
+    </div>
+
+    <div class="row text-center pt-4">
+        <div class="col-12 mb-5">
+            <h2 class="fw-bold">Why Choose Us?</h2>
+            <p class="text-muted">نحن نضمن لك أفضل تجربة تسوق ممكنة</p>
+        </div>
+
+        <div class="col-md-4 mb-4">
+            <div class="p-4 bg-light rounded-4 h-100 shadow-sm transition-hover">
+                <div class="bg-white rounded-circle d-inline-flex justify-content-center align-items-center shadow-sm mb-4" style="width: 80px; height: 80px;">
+                    <i class="bi bi-truck fs-1 text-danger"></i>
+                </div>
+                <h4 class="fw-bold mb-3">شحن سريع</h4>
+                <p class="text-muted">نوفر خدمة توصيل سريعة وموثوقة لجميع المحافظات لضمان استلام طلبك في أسرع وقت.</p>
+            </div>
+        </div>
+
+        <div class="col-md-4 mb-4">
+            <div class="p-4 bg-light rounded-4 h-100 shadow-sm transition-hover">
+                <div class="bg-white rounded-circle d-inline-flex justify-content-center align-items-center shadow-sm mb-4" style="width: 80px; height: 80px;">
+                    <i class="bi bi-shield-check fs-1 text-danger"></i>
+                </div>
+                <h4 class="fw-bold mb-3">دفع آمن</h4>
+                <p class="text-muted">نظام دفع مشفر بالكامل يحمي بياناتك، مع إمكانية الدفع عند الاستلام لراحتك.</p>
+            </div>
+        </div>
+
+        <div class="col-md-4 mb-4">
+            <div class="p-4 bg-light rounded-4 h-100 shadow-sm transition-hover">
+                <div class="bg-white rounded-circle d-inline-flex justify-content-center align-items-center shadow-sm mb-4" style="width: 80px; height: 80px;">
+                    <i class="bi bi-headset fs-1 text-danger"></i>
+                </div>
+                <h4 class="fw-bold mb-3">دعم فني 24/7</h4>
+                <p class="text-muted">فريق خدمة العملاء متواجد على مدار الساعة للرد على استفساراتك وحل أي مشكلة قد تواجهك.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .transition-hover {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+        .transition-hover:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1) !important;
+        }
+
+    .tracking-wide {
+        letter-spacing: 2px;
+    }
+</style>

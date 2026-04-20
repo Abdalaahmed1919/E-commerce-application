@@ -1,0 +1,172 @@
+﻿@model List<Category>
+@{
+    ViewData["Title"] = "Categories";
+    ViewData["MainKey"] = "Categories";
+}
+
+<div id="section-categories">
+    <div class="d-flex justify-content-end mb-4">
+        <form asp-action="AddCategory"  id="addCategoryForm" class="d-flex gap-2 align-items-center">
+
+            <input 
+                   name="Name"
+                   id="newCategoryName"
+                   class="form-control"
+                   placeholder="New Category Name..."
+                   required
+                   style="min-width: 250px; border-radius: 7px;" />
+
+            <button type="submit" class="btn btn-danger px-4 text-nowrap" style="background:#ff4d6d; border:none; border-radius:7px;">
+                <i class="bi bi-plus-lg me-2"></i>Add Category
+            </button>
+
+        </form>
+    </div>
+    <div class="section-card">
+        <table class="admin-table">
+            <thead><tr><th>Category</th><th>Products</th><th>Actions</th></tr></thead>
+            <tbody>
+                @foreach (var catogry in Model)
+                {
+                    <tr>
+                        <td>
+                            <strong>@catogry.Name</strong>
+                        </td>
+
+                        <td>
+                            @catogry.Products.Where(p => !p.IsDeleted).Count()
+                        </td>
+
+                        <td>
+                            <button class="btn-tbl btn-tbl-edit btn-edit-category" data-id="@catogry.Id" data-name="@catogry.Name">
+                                <i class="bi bi-pencil"></i>
+                            </button>
+                            <button data-id="@catogry.Id" class="btnDelet btn-tbl btn-tbl-del">
+                                <i  class="bi bi-trash3"></i>
+                            </button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+<div class="modal fade" id="addCategoryModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Add New Category</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <form id="addCategoryForm">
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="form-label">Category Name *</label>
+                        <input type="text" name="Name" id="newCategoryName" class="form-control" placeholder="e.g. Electronics" required />
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn" style="background:#ff4d6d; color:#fff; border:none;">Save Category</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="editCategoryModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Edit Category</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <form id="editCategoryForm">
+                <input type="hidden" id="editCatId" />
+
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="form-label">Category Name *</label>
+                        <input type="text" id="editCatName" class="form-control" required />
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn" style="background:#ff4d6d; color:#fff; border:none;">Save Changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+            $(document).on('click', '.btnDelet', function () {
+
+            var catogryId = $(this).data('id');
+            var button = $(this);
+            var row = button.closest('tr');
+
+            if (confirm("هل أنت متأكد إنك عايز تمسح القسم ده؟")) {
+
+                $.ajax({
+                    url: '/Admin/DeleteCategory',
+                    type: 'POST',
+                    data: {
+                        id: catogryId
+                    },
+                    success: function(result) {
+                        row.fadeOut(400, function() {
+                            $(this).remove();
+                        });
+                    },
+                    error: function(xhr) {
+                        alert("حدث خطأ أثناء الحذف!");
+                        console.log("Error: " + xhr.responseText);
+                    }
+                });
+
+            }
+        });
+
+        $(document).on('click', '.btn-edit-category', function () {
+            var catId = $(this).data('id');
+            var catName = $(this).data('name');
+
+            $('#editCatId').val(catId);
+            $('#editCatName').val(catName);
+
+            $('#editCategoryModal').modal('show');
+        });
+
+        $('#editCategoryForm').on('submit', function (e) {
+            e.preventDefault();
+
+            var catId = $('#editCatId').val();
+            var catName = $('#editCatName').val();
+
+            $.ajax({
+                url: '/Admin/EditCategory',
+                type: 'POST',
+                data: { id: catId, name: catName },
+                success: function (response) {
+                    if (response.success) {
+                        $('#editCategoryModal').modal('hide');
+                        window.location.reload();
+                    } else {
+                        alert(response.message);
+                    }
+                },
+                error: function () {
+                    alert("حصلت مشكلة واحنا بنعدل القسم!");
+                }
+            });
+        });
+    </script>
+}

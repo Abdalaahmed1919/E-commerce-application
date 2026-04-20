@@ -1,0 +1,190 @@
+﻿@model OrdersAdminViewModel;
+@{
+    ViewData["Title"] = "Orders";
+    ViewData["MainKey"] = "Orders";
+}
+
+<div id="section-orders">
+    <!-- Stats row -->
+    <div class="row g-3 mb-4">
+        <div class="col-6 col-md-3"><div class="section-card p-3 text-center"><div style="font-size:1.5rem;font-weight:700;font-family:'Playfair Display',serif;">@Model.PinndingOrdersCount</div><div style="font-size:.78rem;color:var(--text-muted);">Pending</div></div></div>
+        <div class="col-6 col-md-3"><div class="section-card p-3 text-center"><div style="font-size:1.5rem;font-weight:700;font-family:'Playfair Display',serif;color:var(--info);">@Model.ProcessingOrderCount</div><div style="font-size:.78rem;color:var(--text-muted);">Processing</div></div></div>
+        <div class="col-6 col-md-3"><div class="section-card p-3 text-center"><div style="font-size:1.5rem;font-weight:700;font-family:'Playfair Display',serif;color:var(--gold);">@Model.ShippingOrdersCount</div><div style="font-size:.78rem;color:var(--text-muted);">Shipped</div></div></div>
+        <div class="col-6 col-md-3"><div class="section-card p-3 text-center"><div style="font-size:1.5rem;font-weight:700;font-family:'Playfair Display',serif;color:var(--success);">@Model.CompletedOrderCount</div><div style="font-size:.78rem;color:var(--text-muted);">Delivered</div></div></div>
+    </div>
+
+    <div class="section-card mb-3 p-3">
+        <div class="row g-2 align-items-center">
+            <div class="col-md-4">
+                <input type="text" id="searchBox" class="form-control form-control-sm" placeholder="Search by order ID or customer..." />
+            </div>
+
+            <div class="col-md-2">
+                <select id="statusFilter" class="form-select form-select-sm">
+                    <option value="All">All Status</option>
+                    <option value="Pending">Pending</option>
+                    <option value="Processing">Processing</option>
+                    <option value="Shipped">Shipped</option>
+                    <option value="Completed">Completed</option>
+                    <option value="Cancelled">Cancelled</option>
+                </select>
+            </div>
+
+            <div class="col-md-2">
+                <input type="date" id="dateFilter" class="form-control form-control-sm" />
+            </div>
+
+            <div class="col-md-2">
+                <button id="btnFilter" class="btn btn-sm btn-primary w-100">
+                    <i class="bi bi-funnel"></i> Filter
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="section-card">
+        <div style="overflow-x:auto;">
+            <table class="admin-table">
+                <thead><tr><th>Order ID</th><th>Customer</th><th>Items</th><th>Total</th><th>City</th><th>Address</th><th>Date</th><th>Status</th><th>Actions</th></tr></thead>
+                <tbody id="ordersTableBody">
+                    @foreach (var order in Model.Orders)
+                    {
+                        <tr>
+                            <td><strong>@order.Id</strong>
+                            </td>
+                            <td>
+                                <div style="font-size:.88rem;">@order.User.Name</div>
+                                </td>
+                            <td>@order.OrderItems.Count() Items</td>
+                            <td><strong>@order.TotalPrice</strong></td>
+                            <td><strong>@order.City</strong></td>
+                            <td><strong>@order.ShippingAddress</strong></td>
+                            <td style="font-size:.85rem;">@order.CreatedAt.ToString("MMM/dd//yyyy")</td>
+                            <td><span class="badge-status badge-@order.Status">@order.Status</span>
+                            </td>
+                            <td>
+                                <button class="btn-tbl btn-tbl-edit" onclick="openEditModal('@order.Id', '@order.Status')">
+                                    <i class="bi bi-pencil"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="editOrderModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content" style="border-radius: 12px; border: none;">
+            <div class="modal-header" style="background: #f8f9fa; border-radius: 12px 12px 0 0;">
+                <h5 class="modal-title" style="font-family: 'Playfair Display', serif;">Edit Order #<span id="displayOrderId"></span></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form id="editOrderForm">
+                    <input type="hidden" id="editOrderId" />
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Order Status</label>
+                        <select class="form-select" id="editStatus">
+                            <option value="Pending">Pending</option>
+                            <option value="Processing">Processing</option>
+                            <option value="Shipped">Shipped</option>
+                            <option value="Completed">Completed</option>
+                            <option value="Cancelled">Cancelled</option>
+                        </select>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer" style="border: none;">
+                <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn" style="background: #e94560; color: #fff;" onclick="saveOrderChanges()">Save Changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+
+        function openEditModal(id, status) {
+            $('#displayOrderId').text(id);
+            $('#editOrderId').val(id);
+
+            $('#editStatus').val(status);
+
+            var myModal = new bootstrap.Modal(document.getElementById('editOrderModal'));
+            myModal.show();
+        }
+
+        $(document).ready(function () {
+
+        $('#btnFilter').on('click', function() { 
+
+            // 1. سحب القيم
+            var status = $('#statusFilter').val();
+            var search = $('#searchBox').val();
+            var date = $('#dateFilter').val();
+            var tableBody = $('#ordersTableBody');
+
+            // 2. طلب الـ AJAX
+            $.ajax({
+                url: '/Admin/OrderFilters',
+                type: 'GET',
+                data: {
+                    status: status,
+                    search: search,
+                    date: date
+                },
+                success: function(result) {
+                    tableBody.html(result);
+                },
+                error: function(xhr) {
+                    console.log("Error: " + xhr.responseText);
+                }
+            });
+        });
+
+            // $('#statusFilter').on('change', function() {
+ 
+            //     var selectedStatus = $(this).val();
+
+            //     var tableBody = $('#ordersTableBody');
+
+            //     tableBody.css('opacity', '0.5');
+
+            //     $.ajax({
+            //         url: '/Admin/OrderFilters?status=' + selectedStatus,
+            //         success: function(result) {
+            //             tableBody.html(result);
+            //             tableBody.css('opacity', '1');
+            //         },
+            //     });
+            // });
+
+        });
+
+        function saveOrderChanges() {
+
+         var id = $('#editOrderId').val();
+         var status = $('#editStatus').val()
+                        $.ajax({
+                    url: '/Admin/UpdateOrder?id=' + id + "&status=" + status,
+                    success: function(response) {
+                         if (response.success) {
+                $('#editOrderModal').modal('hide');
+                alert(response.message);
+
+                location.reload();
+            } else {
+                alert(response.message);
+            }
+                    },
+                });
+        }
+
+    </script>
+}
+

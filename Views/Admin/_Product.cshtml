@@ -1,0 +1,40 @@
+﻿@model ProductsAndOrderItemsIncludingCatogry;
+
+
+@foreach (var product in Model.Products)
+{
+    var currentSales = Model.OrderItem
+    .Where(oi => oi.ProductId == product.Id)
+    .Sum(oi => oi.Quantity);
+
+    <tr>
+        <td>
+            <div class="d-flex align-items-center gap-2">
+                <div class="prod-thumb"><img src="@product.ImageUrl" style="width: 21px;" alt="Alternate Text" /></div>
+                <div>
+                    <div style="font-weight:600;font-size:.88rem;">@product.Name</div>
+                </div>
+            </div>
+        </td>
+        <td>@product.Category.Name</td>
+        <td>@product.Price</td>
+        <td><span style="color:var(--success);font-weight:600;">@product.Stock</span></td>
+        <td>@currentSales</td>
+        @if (product.Stock == 0)
+        {
+            <td><span class="badge-status badge-active">Out Of Stock</span></td>
+        }
+        else
+        {
+
+            <td><span class="badge-status badge-active">Active</span></td>
+        }
+
+        <td>
+            <button class="btn-tbl btn-tbl-edit btn-edit-product" data-id="@product.Id">
+                <i class="bi bi-pencil"></i>
+            </button>
+            <button data-id="@product.Id" class="deletProduct btn-tbl btn-tbl-del"><i class="bi bi-trash3"></i></button>
+        </td>
+    </tr>
+}
