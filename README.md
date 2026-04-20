@@ -30,9 +30,6 @@ The system also includes a powerful admin panel for managing products, categorie
 - JavaScript
 - Bootstrap
 
-## 📷 Screenshots
-(Add your screenshots here)
-
 ## ⚙️ Setup Instructions
 1. Clone the repository
 2. Update connection string in `appsettings.json`
