@@ -27,7 +27,7 @@ The system also includes a powerful admin panel for managing products, categorie
 - Entity Framework
 - LINQ
 - SQL Server
-- JavaScript
+- JavaScript (AJAX)
 - Bootstrap
 
 ## ⚙️ Setup Instructions
