@@ -15,8 +15,6 @@ It provides a complete shopping journey for customers, featuring real-time AJAX 
 
 ---
 
-## 📸 Screenshots
-*(Add your project screenshots here to make it visually appealing)*
 
 | Home & AJAX Filtering | Premium Product Details | Admin Dashboard |
 | :---: | :---: | :---: |
@@ -38,6 +36,8 @@ It provides a complete shopping journey for customers, featuring real-time AJAX 
 * **Inventory Control:** Full CRUD operations for Products and Categories.
 * **Security First:** Protected against SQL Injection and unauthorized routing access.
 * **Data Integrity:** Solid database relationships and constraints using Entity Framework Core.
+* **Absolute Catalog Control:** A powerful and intuitive admin interface providing full CRUD capabilities to effortlessly manage products, categories, and stock limits, ensuring the store's offerings are always up-to-date.
+* **Complete Order Management:** Full visibility and control over the entire order lifecycle. Admins can seamlessly track customer purchases, view detailed invoices, and update order statuses in real-time.
 
 ---
 
@@ -57,4 +57,4 @@ To get a local copy up and running, follow these simple steps:
 
 ### 1. Clone the repository
 ```bash
-git clone [https://github.com/OmarMansour/ShopNest.git](https://github.com/OmarMansour/ShopNest.git)
+git clone [https://github.com/Abdalaahmed1919/E-commerce-application.git]
