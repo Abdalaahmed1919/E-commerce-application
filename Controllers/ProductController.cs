@@ -137,5 +137,17 @@ namespace Simple_E_commers_App.Controllers
             CartReprosetory.Save();
             return Json(new { success = true, message = "تمت الإضافة للسلة بنجاح! 🛒" });         
         }
+        [HttpGet]
+        public IActionResult Details(int id)
+        {
+            var product = ProductRebrestory.GetProductById(id);
+
+            if (product == null)
+            {
+                return RedirectToAction("Index"); 
+            }
+
+            return View(product);
+        }
     }
 }
