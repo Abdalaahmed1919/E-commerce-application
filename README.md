@@ -16,10 +16,6 @@ It provides a complete shopping journey for customers, featuring real-time AJAX 
 ---
 
 
-| Home & AJAX Filtering | Premium Product Details | Admin Dashboard |
-| :---: | :---: | :---: |
-| <img src="URL_HERE" width="250"/> | <img src="URL_HERE" width="250"/> | <img src="URL_HERE" width="250"/> |
-
 ---
 
 ## 🚀 Key Features
