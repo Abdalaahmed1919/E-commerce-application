@@ -17,6 +17,7 @@ body {
     flex-direction: column;
 }
 
+
 /* SPLIT LAYOUT */
 .auth-wrapper {
     flex: 1;
@@ -129,6 +130,22 @@ body {
         box-shadow: 0 0 0 3px rgba(233,69,96,.12);
     }
 
+.input-group .form-control {
+    border-right: none;
+}
+
+.input-group .btn {
+    border: 1.5px solid #e0ddd8;
+    border-left: none;
+    background: #fff;
+    color: var(--text-muted);
+    border-radius: 0 8px 8px 0;
+}
+
+    .input-group .btn:hover {
+        color: var(--primary);
+    }
+
 .btn-login {
     background: var(--accent);
     color: #fff;
@@ -144,6 +161,38 @@ body {
     .btn-login:hover {
         opacity: .88;
         transform: translateY(-1px);
+    }
+
+.divider {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: var(--text-muted);
+    font-size: .85rem;
+    margin: 20px 0;
+}
+
+    .divider::before, .divider::after {
+        content: '';
+        flex: 1;
+        height: 1px;
+        background: #ececec;
+    }
+
+.btn-social {
+    width: 100%;
+    border: 1.5px solid #ececec;
+    background: #fff;
+    border-radius: 8px;
+    padding: 10px;
+    font-size: .9rem;
+    font-weight: 500;
+    transition: background .2s;
+    margin-bottom: 10px;
+}
+
+    .btn-social:hover {
+        background: #f8f7f4;
     }
 
 .link-accent {

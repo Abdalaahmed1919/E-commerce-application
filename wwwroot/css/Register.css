@@ -17,14 +17,13 @@ body {
     flex-direction: column;
 }
 
-/* SPLIT LAYOUT */
 .auth-wrapper {
     flex: 1;
     display: flex;
 }
 
 .auth-left {
-    background: linear-gradient(135deg, var(--primary) 0%, #16213e 60%, #0f3460 100%);
+    background: linear-gradient(135deg, #0f3460 0%, #16213e 60%, var(--primary) 100%);
     flex: 1;
     display: flex;
     flex-direction: column;
@@ -36,20 +35,20 @@ body {
     overflow: hidden;
 }
 
-    .auth-left::after {
+    .auth-left::before {
         content: '';
         position: absolute;
-        bottom: -80px;
-        right: -80px;
+        top: -80px;
+        left: -80px;
         width: 300px;
         height: 300px;
-        background: radial-gradient(circle, rgba(233,69,96,.25) 0%, transparent 70%);
+        background: radial-gradient(circle, rgba(233,69,96,.2) 0%, transparent 70%);
         border-radius: 50%;
     }
 
     .auth-left h2 {
         font-family: 'Playfair Display',serif;
-        font-size: 2.4rem;
+        font-size: 2.2rem;
         line-height: 1.2;
     }
 
@@ -57,38 +56,27 @@ body {
             color: var(--accent);
         }
 
-    .auth-left p {
-        color: rgba(255,255,255,.7);
-        font-size: 1rem;
-        max-width: 340px;
-    }
-
-.feature-item {
-    display: flex;
-    align-items: flex-start;
-    gap: 12px;
-    margin-bottom: 16px;
-}
-
-.feature-icon {
-    width: 40px;
-    height: 40px;
-    background: rgba(233,69,96,.2);
-    border-radius: 8px;
+.perk {
     display: flex;
     align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-    font-size: 1.1rem;
+    gap: 10px;
+    margin-bottom: 12px;
+    font-size: .9rem;
 }
 
+    .perk i {
+        color: var(--accent);
+        font-size: 1rem;
+    }
+
 .auth-right {
-    width: 480px;
+    width: 520px;
     background: #fff;
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 50px 50px;
+    padding: 48px 50px;
+    overflow-y: auto;
 }
 
 .auth-card {
@@ -99,13 +87,13 @@ body {
     font-family: 'Playfair Display',serif;
     font-size: 1.9rem;
     font-weight: 700;
-    margin-bottom: 6px;
+    margin-bottom: 4px;
 }
 
 .auth-subtitle {
     color: var(--text-muted);
     font-size: .9rem;
-    margin-bottom: 28px;
+    margin-bottom: 24px;
 }
 
 .form-label {
@@ -120,7 +108,7 @@ body {
     border-radius: 8px;
     font-family: 'DM Sans',sans-serif;
     font-size: .92rem;
-    padding: 11px 14px;
+    padding: 10px 14px;
     transition: border-color .2s;
 }
 
@@ -129,7 +117,26 @@ body {
         box-shadow: 0 0 0 3px rgba(233,69,96,.12);
     }
 
-.btn-login {
+.input-group .form-control {
+    border-right: none;
+}
+
+.input-group .btn {
+    border: 1.5px solid #e0ddd8;
+    border-left: none;
+    background: #fff;
+    color: var(--text-muted);
+    border-radius: 0 8px 8px 0;
+}
+
+.strength-bar {
+    height: 4px;
+    border-radius: 4px;
+    transition: all .3s;
+    margin-top: 6px;
+}
+
+.btn-register {
     background: var(--accent);
     color: #fff;
     border: none;
@@ -138,12 +145,12 @@ body {
     border-radius: 8px;
     font-weight: 600;
     font-size: 1rem;
-    transition: opacity .2s, transform .1s;
+    transition: opacity .2s;
+    margin-top: 25px;
 }
 
-    .btn-login:hover {
+    .btn-register:hover {
         opacity: .88;
-        transform: translateY(-1px);
     }
 
 .link-accent {
@@ -167,13 +174,13 @@ body {
     }
 }
 
-/* === تنسيقات الـ Validation === */
+/* === التنسيقات الجديدة الخاصة بالـ Validation === */
 .field-validation-error {
-    color: #dc3545;
+    color: #dc3545; /* لون أحمر واضح */
     font-size: 0.8rem;
     font-weight: 500;
     margin-top: 5px;
-    display: block;
+    display: block; /* عشان ينزل في سطر لوحده تحت الحقل */
 }
 
 .validation-summary-errors {

@@ -1,3 +1,4 @@
+wwwroot\css\Product.css
 wwwroot\css\site.css
 wwwroot\favicon.ico
 wwwroot\Imgs\25ultra.jpg
@@ -64,4 +65,11 @@ wwwroot\lib\jquery\dist\jquery.js
 wwwroot\lib\jquery\dist\jquery.min.js
 wwwroot\lib\jquery\dist\jquery.min.map
 wwwroot\lib\jquery\LICENSE.txt
-wwwroot\css\Product.css
+wwwroot\css\Cart.css
+wwwroot\css\Checkout.css
+wwwroot\css\Home.css
+wwwroot\css\LayoutAdmin.css
+wwwroot\css\Login.css
+wwwroot\css\MainLayout.css
+wwwroot\css\Register.css
+wwwroot\css\Role.css
