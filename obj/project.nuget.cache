@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "Y/XvyRNB/2k=",
+  "dgSpecHash": "81ttrGKhZ4Y=",
   "success": true,
-  "projectFilePath": "D:\\Projects C#\\Simple E-commers App\\Simple E-commers App\\Simple E-commers App.csproj",
+  "projectFilePath": "D:\\Projects C#\\full E-commers App\\Simple E-commers App\\Simple E-commers App.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Elbod\\.nuget\\packages\\automapper\\12.0.1\\automapper.12.0.1.nupkg.sha512",
     "C:\\Users\\Elbod\\.nuget\\packages\\automapper.extensions.microsoft.dependencyinjection\\12.0.1\\automapper.extensions.microsoft.dependencyinjection.12.0.1.nupkg.sha512",
